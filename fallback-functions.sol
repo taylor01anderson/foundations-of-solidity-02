@@ -9,6 +9,7 @@ pragma solidity ^0.8.0;
 // using send and transfer invokes 2300 gas to emit a log
 // you can send ether with send, transfer, or call
 
+// There is a warning that there is no receive function, but there is a payable function which makes it ok
 contract Fallback  {
     event Log(uint gas);
 
