@@ -32,3 +32,32 @@ contract MyContract {
         return ICounter(_counter).count();
     }
 }
+
+// Exercise 01: Create an interface to connect to uniswap
+
+// Interface to get pairs from uniswap
+interface UniswapV2Factory {
+    function getPair(address tokenA, address tokenB) external view returns (address pair);
+}
+
+// Interface to get reserve values of pairs from uniswap
+interface UniswapV2Pair {
+    function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast);
+}
+
+contract MyContract2 {
+    address private factory = 0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f;
+    address private weth = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+    address private usdc = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
+
+    // Get pair of tokens and set it to an address pair
+    function getReserveToken() external view returns(uint, uint) {
+        address pair = UniswapV2Factory(factory).getPair(weth, usdc);
+
+        // Use address from pair to get reserve values
+        (uint reserve0, uint reserve1,) = UniswapV2Pair(pair).getReserves();
+        return(reserve0, reserve1);
+
+    }
+
+}
